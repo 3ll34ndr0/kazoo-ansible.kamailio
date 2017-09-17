@@ -1,0 +1,6 @@
+---
+- name: Restart Kamailio
+  service:
+    name: kazoo-kamailio
+    state: restarted
+
