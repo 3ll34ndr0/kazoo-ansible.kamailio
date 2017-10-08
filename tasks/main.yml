@@ -1,8 +1,8 @@
 ---
 - name: Install Kamailio
   yum:
-    name: "kazoo-kamailio-{{ kazoo_kamailio_version }}.el7.centos"
-    state: present
+    name: "kazoo-kamailio"
+    state: latest
   notify: Restart Kamailio
 
 - name: Stop and Disable Default Kamailio
