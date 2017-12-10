@@ -610,7 +610,7 @@ route[INTERNAL_TO_EXTERNAL_RELAY]
     
     # SDP Fix
     if (has_body("application/sdp") && nat_uac_test("8")) { 
-        fix_nated_sdp("10"); 
+        fix_nated_sdp("10", "{{ public_ipv4 }}"); 
         xlog("L_INFO", "FreeSwitch SDP fixup INTERNAL_TO_EXTERNAL_RELAY - inbound INVITE to UA"); 
     }
 
@@ -722,7 +722,7 @@ onreply_route[INTERNAL_REPLY]
     
     # SDP Fix
     if (has_body("application/sdp") && nat_uac_test("8")) { 
-        fix_nated_sdp("10"); 
+        fix_nated_sdp("10", "{{ public_ipv4 }}"); 
         xlog("L_INFO", "FreeSwitch SDP fixup INTERNAL_RELAY - outbound to UA"); 
     }
     
