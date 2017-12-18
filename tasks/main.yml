@@ -17,11 +17,9 @@
     dest: /etc/kazoo/kamailio/local.cfg
   notify: Restart Kamailio
 
-- name: Create Kamailio default.cfg
-  template:
-    src: default.cfg.j2
-    dest: /etc/kazoo/kamailio/default.cfg
-  notify: Restart Kamailio
+- name: Manage Dispatcher
+  managedispatcher:
+    freeswitch_hosts: "{{ groups['freeswitch'] | map('extract', hostvars, ['ansible_fqdn']) | join(',') }}"
 
 - name: Start and Enable Kazoo Kamailio
   service:
