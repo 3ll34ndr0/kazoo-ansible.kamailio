@@ -20,6 +20,7 @@
 - name: Manage Dispatcher
   managedispatcher:
     freeswitch_hosts: "{{ groups['freeswitch'] | map('extract', hostvars, ['ansible_fqdn']) | join(',') }}"
+  notify: Restart Kamailio
 
 - name: Start and Enable Kazoo Kamailio
   service:
