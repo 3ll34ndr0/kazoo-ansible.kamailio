@@ -1,32 +1,50 @@
 ---
-- name: Install Kamailio
-  yum:
-    name: "kazoo-kamailio"
-    state: latest
-  notify: Restart Kamailio
 
-- name: Stop and Disable Default Kamailio
-  service:
-    name: kamailio
-    state: stopped
-    enabled: no
+- name: Enable Postgresql 13
+  dnf: 
+    enable_plugin: postgresql:13
+ 
+- name: Install Postgresql 13
+  dnf:
+    name: postgresql-server
+    state: installed
 
-- name: Create Kamailio local.cfg
-  template:
-    src: local.cfg.j2
-    dest: /etc/kazoo/kamailio/local.cfg
-  notify: Restart Kamailio
 
-- name: Manage Dispatcher
-  managedispatcher:
-    freeswitch_hosts: "{{ groups['freeswitch'] | map('extract', hostvars, ['ansible_fqdn']) | join(',') }}"
-  notify: Restart Kamailio
+- name: Add Kamailio Repository
+  shell: dnf config-manager --add-repo=https://rpm.kamailio.org/centos/kamailio.repo
+  args:
+    creates: /etc/yum.repos.d/kamailio.repo
 
-- name: Start and Enable Kazoo Kamailio
-  service:
-    name: kazoo-kamailio
-    state: started
-    enabled: yes
+
+
+#- name: Install Kamailio
+#  yum:
+#    name: "kazoo-kamailio"
+#    state: latest
+#  notify: Restart Kamailio
+
+#- name: Stop and Disable Default Kamailio
+#  service:
+#    name: kamailio
+#    state: stopped
+#    enabled: no
+
+#- name: Create Kamailio local.cfg
+#  template:
+#    src: local.cfg.j2
+#    dest: /etc/kazoo/kamailio/local.cfg
+#  notify: Restart Kamailio
+
+#- name: Manage Dispatcher
+#  managedispatcher:
+#    freeswitch_hosts: "{{ groups['freeswitch'] | map('extract', hostvars, ['ansible_fqdn']) | join(',') }}"
+#  notify: Restart Kamailio
+
+#- name: Start and Enable Kazoo Kamailio
+#  service:
+#    name: kazoo-kamailio
+#    state: started
+#    enabled: yes
 
 - name: Allow Kamailio SIP TCP
   firewalld:
