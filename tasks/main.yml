@@ -16,6 +16,10 @@
     creates: /etc/yum.repos.d/kamailio.repo
 
 
+- name: Create kamailio database in postgres
+  become: true
+  become_user: postgres
+  command: psql CREATE USER kamailio WITH PASSWORD '{{sql_kamailio_user_password}}';
 
 #- name: Install Kamailio
 #  yum:
